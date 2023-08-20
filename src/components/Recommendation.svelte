@@ -1,7 +1,7 @@
 <div class="recommendations-wrapper">
     <p>Vorschläge aus dem Internet:</p>
     {#each recommendations as recommendation}
-        <Movie on:acceptMovieEvent movie="{recommendation}" showAcceptButton="true" />
+        <MovieComponent on:acceptMovieEvent movie="{recommendation}" showAcceptButton={true} />
     {/each}
     <button on:click|preventDefault={handleRecommendations} class="outline-button">Internet durchsuchen</button>
     <!--
@@ -16,7 +16,7 @@
 
 
 <script lang="ts">
-    import Movie from "./MovieComponent.svelte";
+    import MovieComponent from "./MovieComponent.svelte";
 
     export let title: string
 
@@ -31,13 +31,6 @@
         const rawResponse = await fetch(`api/recommendations?title=${encodedTitle}`)
         recommendations = await rawResponse.json()
         showRecommendations = true
-    }
-
-
-
-
-    function am() {
-        console.log('asdf')
     }
 
 </script>
