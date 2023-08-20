@@ -103,7 +103,6 @@ class TMDB {
     }
 
     private async fetchGenres(): Promise<Genre[]> {
-        console.log('fetching genres')
         const rawResponse = await fetch('https://api.themoviedb.org/3/genre/movie/list?language=de', this.requestOptions)
         const response: { 'genres': Genre[] } = await rawResponse.json() as any
         return response.genres
