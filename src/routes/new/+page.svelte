@@ -43,7 +43,7 @@
     <div class="status-msg">
         <p class="status-msg-icon">􀁣</p>
         <p class="status-msg-text">Film wurde gespeichert.</p>
-        <button class="primary-button" on:click={ () => showForm = 0}>Neuen Film erfassen</button>
+        <button class="primary-button" on:click={ () => { showForm = 0; resetForm() }}>Neuen Film erfassen</button>
     </div>
 
 {:else if showForm === -1}
@@ -107,6 +107,17 @@
         }
 
         showForm = 1
+    }
+
+    function resetForm() {
+        movie = {
+            titel: "",
+            release_year: undefined,
+            region: undefined,
+            genre: undefined,
+            actor: undefined,
+            director: undefined,
+        }
     }
 
 </script>
