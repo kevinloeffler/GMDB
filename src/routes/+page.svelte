@@ -22,7 +22,7 @@
     <p>Neuste Filme:</p>
 
     {#each movies as movie}
-        <Movie movie={movie} />
+        <MovieComponent movie={movie} />
     {/each}
 
     <!--TODO: Loading animation-->
@@ -33,7 +33,7 @@
 <script lang="ts">
 
     import {onMount} from "svelte";
-    import Movie from "../components/MovieComponent.svelte";
+    import MovieComponent from "../components/MovieComponent.svelte";
 
     let movies: Movie[] = []
 
