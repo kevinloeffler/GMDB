@@ -1,0 +1,114 @@
+
+:root {
+    --accent-color: #FF3E00;
+    --background-color: #FFFFFF;
+    --foreground-color: #000000;
+    --secondary-color: #D7D7D7;
+
+    --body-type-size: 14pt;
+}
+
+
+@font-face {
+    font-family: "SF Pro Display";
+    font-weight: 400;
+    src: local("SF Pro Display"),
+         url("fonts/SF-Pro-Display-Regular.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SF Pro Display";
+    font-weight: 500;
+    src: local("SF Pro Display"),
+         url("fonts/SF-Pro-Display-Medium.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SF Pro Display";
+    font-weight: 600;
+    src: local("SF Pro Display"),
+         url("fonts/SF-Pro-Display-Semibold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "SF Pro Display";
+    font-weight: 700;
+    src: local("SF Pro Display"),
+         url("fonts/SF-Pro-Display-Bold.otf") format("opentype");
+}
+
+/* region: CSS reset, courtesy of joshwcomeau.com/css/custom-css-reset/ */
+
+* { margin: 0; }
+html, body { height: 100%; }
+body { line-height: 1.5; -webkit-font-smoothing: antialiased; }
+img, picture, video, canvas, svg { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; }
+p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+#root, #__next { isolation: isolate; }
+a {text-decoration: none; color: var(--accent-color)}
+
+/* endregion */
+
+body {
+    background-color: var(--background-color);
+    color: var(--foreground-color);
+
+    font-family: "SF Pro Display", "SF Pro", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: var(--body-type-size);
+}
+
+.container {
+    width: 90vw;
+    max-width: 900px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding-top: 100px;
+    padding-bottom: 40px;
+}
+
+button {
+    outline: none;
+    border: none;
+    border-radius: 4px;
+
+    padding: 12px 20px;
+    margin-bottom: 4px;
+    margin-right: 4px;
+
+    font-size: calc(var(--body-type-size) * 0.9);
+    font-weight: 700;
+    cursor: pointer;
+
+    transition-duration: 250ms;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:focus {
+    border: 4px solid var(--foreground-color);
+}
+
+.primary-button {
+    background-color: var(--accent-color);
+    color: var(--background-color);
+}
+
+.secondary-button {
+    background-color: var(--secondary-color);
+}
+
+.outline-button {
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    background-color: var(--background-color);
+}
+
+.back-button {
+    font-weight: 600;
+}
