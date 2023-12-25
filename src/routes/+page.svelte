@@ -22,7 +22,7 @@
     <p>Neuste Filme:</p>
 
     {#each data.movies as movie}
-        <Movie movie={movie} />
+        <MovieComponent movie={movie} />
     {/each}
 
     <!--TODO: Loading animation-->
@@ -31,7 +31,7 @@
 
 
 <script lang="ts">
-    import Movie from "../components/MovieComponent.svelte";
+    import MovieComponent from "../components/MovieComponent.svelte";
     import type { PageData } from './$types'
 
     export let data: PageData;
