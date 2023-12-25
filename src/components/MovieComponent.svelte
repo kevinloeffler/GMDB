@@ -42,6 +42,7 @@
             <div class="movie-button-wrapper">
                 <!--<button on:click|stopPropagation={editMovie} class="primary-button">Bearbeiten</button>-->
                 <button on:click|stopPropagation={() => movieIsExtended = false} class="secondary-button">Schliessen</button>
+                <button on:click|stopPropagation={deleteMovie}>Löschen</button>
             </div>
         {/if}
 
@@ -93,6 +94,10 @@
     function editMovie() {
         // TODO: implement edit
         console.log('edit movie')
+    }
+
+    function deleteMovie() {
+        console.log(`delete movie: ${movie.id}`)
     }
 
     const dispatch = createEventDispatcher()

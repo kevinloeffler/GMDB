@@ -152,6 +152,10 @@ class DatabaseManager {
         }
     }
 
+    async deleteMovie(): Promise<Optional<any>> {
+
+    }
+
 }
 
 export const db: DatabaseManager = new DatabaseManager()
