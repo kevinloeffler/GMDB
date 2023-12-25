@@ -8,41 +8,66 @@
          in:slide={{ duration: 300 }}
     >
 
+        {#if movie.id}
+            <div class="id-number">
+                <p>{movie.id}</p>
+            </div>
+        {/if}
+
         <div class="title">
             <p>{@html highlightedTitel || movie.titel}</p>
             <div class="gradient-overlay"></div>
         </div>
 
+        <div class="director">
+            {#if movieIsExtended}
+                <p class="label">Regisseur:</p>
+            {/if}
+            <p>{movie.director}</p>
+            <div class="gradient-overlay"></div>
+        </div>
+
         <div class="year">
+            {#if movieIsExtended}
+                <p class="label">Jahr:</p>
+            {/if}
             <p>{movie.release_year}</p>
             <div class="gradient-overlay"></div>
         </div>
 
         <div class="region">
+            {#if movieIsExtended}
+                <p class="label">Region:</p>
+            {/if}
             <p>{movie.region}</p>
             <div class="gradient-overlay"></div>
         </div>
 
         <div class="genre">
+            {#if movieIsExtended}
+                <p class="label">Genre:</p>
+            {/if}
             <p>{movie.genre}</p>
             <div class="gradient-overlay"></div>
         </div>
 
         <div class="actor">
+            {#if movieIsExtended}
+                <p class="label">Schauspieler:</p>
+            {/if}
             <p>{movie.actor}</p>
-            <div class="gradient-overlay"></div>
-        </div>
-
-        <div class="director">
-            <p>{movie.director}</p>
             <div class="gradient-overlay"></div>
         </div>
 
         {#if movieIsExtended}
             <div class="movie-button-wrapper">
-                <!--<button on:click|stopPropagation={editMovie} class="primary-button">Bearbeiten</button>-->
                 <button on:click|stopPropagation={() => movieIsExtended = false} class="secondary-button">Schliessen</button>
-                <button on:click|stopPropagation={deleteMovie}>Löschen</button>
+                {#if !showAcceptButton}
+                    <div class="edit-buttons-wrapper">
+                        <button on:click|stopPropagation={editMovie}>Bearbeiten</button>
+                        <button on:click|stopPropagation={deleteMovie}>Löschen</button>
+                    </div>
+                {/if}
             </div>
         {/if}
 
@@ -128,7 +153,7 @@
         display: flex;
         width: 100%;
 
-        padding: 12px 0 12px 20px;
+        padding: 12px 20px 12px 20px;
 
         border: 2px solid var(--secondary-color);
         border-radius: 4px;
@@ -140,11 +165,33 @@
 
     .movie-wrapper > div {
         position: relative;
+        display: flex;
     }
 
     .movie-wrapper > div > p {
         white-space: nowrap;
         overflow: hidden;
+    }
+
+    .label {
+        color: #888;
+        min-width: 110px;
+    }
+
+    .id-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 60px;
+        max-width: 60px;
+        min-height: 28px;
+        margin-right: 8px;
+        border-radius: 4px;
+
+        font-size: 11pt;
+        color: white;
+        background-color: #888;
     }
 
     .movie-wrapper-extended {
@@ -167,6 +214,9 @@
     }
 
     .movie-button-wrapper {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
         margin-top: 8px;
     }
 
@@ -187,7 +237,7 @@
     /* Movie Elements */
 
     .title {
-        width: 34%;
+        width: calc(44% - 66px);
         font-weight: 500;
     }
 
@@ -200,15 +250,15 @@
     }
 
     .genre {
-        width: 16%
+        width: 12%
     }
 
     .actor {
-        width: 18%;
+        width: 14%;
     }
 
     .director {
-        width: 18%;
+        width: 16%;
     }
 
 </style>
