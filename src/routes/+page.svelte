@@ -21,7 +21,7 @@
 <div class="newest-movies-wrapper">
     <p>Neuste Filme:</p>
 
-    {#each movies as movie}
+    {#each data.movies as movie}
         <Movie movie={movie} />
     {/each}
 
@@ -31,20 +31,10 @@
 
 
 <script lang="ts">
-
-    import {onMount} from "svelte";
     import Movie from "../components/MovieComponent.svelte";
+    import type { PageData } from './$types'
 
-    let movies: Movie[] = []
-
-    onMount( async () => {
-        movies = await loadNewestMovies()
-    })
-
-    async function loadNewestMovies(): Promise<Movie[]> {
-        const response = await fetch('/api/newest-movies')
-        return await response.json()
-    }
+    export let data: PageData;
 
 </script>
 
