@@ -85,6 +85,7 @@
 
     import { slide } from "svelte/transition"
     import {createEventDispatcher} from "svelte";
+    import {invalidateAll} from "$app/navigation";
 
     export let movie: Movie
     export let highlightTitel: Optional<string> = undefined
@@ -102,14 +103,14 @@
         // TODO: this method only highlights complete words seperated with spaces
         const titelString = movie.titel
 
-        const wordsToHighlight = textToHighlight.toLowerCase().split(" ");
-        const titleWords = titelString.split(" ");
+        const wordsToHighlight = textToHighlight.toLowerCase().split(" ")
+        const titleWords = titelString.split(' ')
 
         const highlightedWords = titleWords.map((word) => {
             if (wordsToHighlight.includes(word.toLowerCase())) {
-                return `<span style="font-weight: 700">${word}</span>`;
+                return `<span style="font-weight: 700">${word}</span>`
             } else {
-                return word;
+                return word
             }
         });
 
@@ -121,8 +122,13 @@
         console.log('edit movie')
     }
 
-    function deleteMovie() {
-        console.log(`delete movie: ${movie.id}`)
+    async function deleteMovie() {
+        const response = await fetch(`/api/movies/${movie.id}`, {method: 'DELETE'})
+        const body = await response.json()
+        if (body.isDeleted) {
+            console.log('deleted')
+            await invalidateAll()
+        }
     }
 
     const dispatch = createEventDispatcher()

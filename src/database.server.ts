@@ -111,8 +111,17 @@ class DatabaseManager {
         }
     }
 
-    async deleteMovie(): Promise<Optional<any>> {
+    async deleteMovie(id: number): Promise<boolean> {
+        const query = 'DELETE from movies WHERE id = $1'
+        const values = [id]
 
+        try {
+            const response = await this.pool.query(query, values)
+            return response.rowCount == 1
+        } catch (error) {
+            console.error(error)
+            return false
+        }
     }
 
 }
