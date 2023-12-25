@@ -1,4 +1,4 @@
-import {type Handle, redirect} from '@sveltejs/kit'
+import {error, redirect, type Handle} from '@sveltejs/kit'
 import {validateJWT} from "./lib/auth.server";
 
 
@@ -11,6 +11,7 @@ export const handle: Handle = (async ({ event, resolve }) => {
     const jwtCookie = event.cookies.get('jwt')
 
     if (jwtCookie === undefined) {
+        if (event.url.pathname.startsWith('/api')) { throw error(401) }
         throw redirect(303, '/login')
     }
 
@@ -22,7 +23,8 @@ export const handle: Handle = (async ({ event, resolve }) => {
         } else {
             throw new Error('Not logged in')
         }
-    } catch (error) {
+    } catch (err) {
+        if (event.url.pathname.startsWith('/api')) { throw error(401) }
         throw redirect(303, '/login')
     }
 })
