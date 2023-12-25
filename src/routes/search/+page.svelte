@@ -23,7 +23,7 @@
     let totalMatches = -1
 
     async function handleSearchChange(): Promise<void> {
-        if (query.length <= 3) {
+        if (query.length < 3) {
             movies = []
             totalMatches = -1
             return
