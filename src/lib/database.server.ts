@@ -23,7 +23,8 @@ class DatabaseManager {
     })
 
     constructor() {
-        this.pool.connect().then()
+        // use delay to allow the postgres docker service to start up
+        setTimeout( () => this.pool.connect().then() , 3000 )
     }
 
     async findMovie(movieTitle: string): Promise<Optional<Movie[]>> {

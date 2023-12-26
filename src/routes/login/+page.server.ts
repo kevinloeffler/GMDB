@@ -1,6 +1,6 @@
 import {redirect} from '@sveltejs/kit'
 import type {Actions} from "@sveltejs/kit";
-import {login} from "../../lib/auth.server";
+import {login} from "$lib/auth.server";
 
 
 export const actions = {

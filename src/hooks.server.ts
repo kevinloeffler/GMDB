@@ -1,5 +1,5 @@
 import {error, redirect, type Handle} from '@sveltejs/kit'
-import {validateJWT} from "./lib/auth.server";
+import {validateJWT} from "$lib/auth.server";
 
 
 export const handle: Handle = (async ({ event, resolve }) => {
