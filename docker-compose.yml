@@ -14,7 +14,7 @@ services:
       - ./static:/app/static
     environment:
       DB_NAME: ${DB_NAME}
-      # DB_HOST: db
+      DB_HOST: db
       DB_PORT: 5432
     depends_on:
       - db

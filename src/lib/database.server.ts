@@ -8,7 +8,6 @@ dotenv.config()
 
 const DB_PORT = parseInt(process.env.DB_PORT || '5432')
 
-
 class DatabaseManager {
 
     private pool = new Pool({
@@ -23,8 +22,7 @@ class DatabaseManager {
     })
 
     constructor() {
-        // use delay to allow the postgres docker service to start up
-        setTimeout( () => this.pool.connect().then() , 3000 )
+        this.pool.connect().then()
     }
 
     async findMovie(movieTitle: string): Promise<Optional<Movie[]>> {
