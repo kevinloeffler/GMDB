@@ -1,7 +1,9 @@
 import {redirect} from '@sveltejs/kit'
 import type {Actions} from "@sveltejs/kit";
 import {login} from "$lib/auth.server";
+import {USE_SSL} from '$env/static/private'
 
+const useSSL = USE_SSL !== 'false' || true // disable SSL on localhost
 
 export const actions = {
     default: async ({request, cookies}) => {
@@ -17,7 +19,7 @@ export const actions = {
 
         cookies.set('jwt', `Bearer ${token}`, {
             httpOnly: true,
-            // secure: true, TODO: enable when using SSL
+            secure: useSSL, // TODO: enable when using SSL
             sameSite: 'strict',
             maxAge: 60 * 60 * 24,
             path: '/',
