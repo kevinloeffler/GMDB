@@ -1,3 +1,5 @@
+import { building } from '$app/environment'
+
 import dotenv from 'dotenv'
 // import {Pool, type QueryResult} from 'pg'
 import pkg from 'pg'
@@ -125,5 +127,8 @@ class DatabaseManager {
 
 }
 
-export const db: DatabaseManager = new DatabaseManager()
+export let db: DatabaseManager
 
+if (!building) {
+    db = new DatabaseManager()
+}
