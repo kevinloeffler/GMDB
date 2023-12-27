@@ -4,7 +4,6 @@ import {validateJWT} from "$lib/auth.server";
 
 export const handle: Handle = (async ({ event, resolve }) => {
     if (event.url.pathname.startsWith('/login')) {
-        console.log('resolving')
         return resolve(event)
     }
 

@@ -19,7 +19,7 @@ export const actions = {
 
         cookies.set('jwt', `Bearer ${token}`, {
             httpOnly: true,
-            secure: useSSL, // TODO: enable when using SSL
+            secure: useSSL,
             sameSite: 'strict',
             maxAge: 60 * 60 * 24,
             path: '/',

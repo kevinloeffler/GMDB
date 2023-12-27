@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile.prod
     ports:
-      - "3002:4173"
+      - "3002:3000"
     volumes:
       - ./static:/app/static
     environment:
