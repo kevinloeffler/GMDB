@@ -8,9 +8,6 @@ RUN npm ci
 
 COPY . .
 
-ARG DB_PORT
-ENV DB_PORT=${DB_PORT}
-
 RUN npm run build
 
 EXPOSE 4173
