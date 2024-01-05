@@ -3,11 +3,10 @@ import type {Actions} from "@sveltejs/kit";
 import {login} from "$lib/auth.server";
 import {USE_SSL} from '$env/static/private'
 
-const useSSL = USE_SSL !== 'false' || true // disable SSL on localhost
+const useSSL = USE_SSL !== 'false' || false // disable SSL on localhost
 
 export const actions = {
     default: async ({request, cookies}) => {
-        // TODO log the user in
         const data = await request.formData()
         const password: string = data.get('password') as string
 
