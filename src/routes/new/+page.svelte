@@ -81,10 +81,10 @@
         movie = event.detail.movie
     }
 
-    async function handleSubmit(form) : Promise<void> {
+    async function handleSubmit(form: any) : Promise<void> {
         const formData = new FormData(form.target)
 
-        const data = {}
+        const data: any = {}
         for (let field of formData) {
             const [key, value] = field
             data[key] = value
