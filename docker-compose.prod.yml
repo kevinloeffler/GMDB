@@ -5,12 +5,10 @@ services:
     container_name: svelte_app
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     ports:
-      - "3000:3000"
-      - "5173:5173"
+      - "3002:3000"
     volumes:
-      - ./src:/app/src
       - ./static:/app/static
     environment:
       DB_NAME: ${DB_NAME}
@@ -23,9 +21,10 @@ services:
     image: postgres:15
     restart: always
     ports:
-      - "5432:5432"
+      - "50001:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./temp_db_data:/tmp/temp_db_data
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}

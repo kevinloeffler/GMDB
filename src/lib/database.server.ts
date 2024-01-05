@@ -1,11 +1,14 @@
+import { building } from '$app/environment'
+
 import dotenv from 'dotenv'
-import {Pool, type QueryResult} from 'pg'
+// import {Pool, type QueryResult} from 'pg'
+import pkg from 'pg'
+const { Pool } = pkg
 import Papa from 'papaparse'
 
 dotenv.config()
 
 const DB_PORT = parseInt(process.env.DB_PORT || '5432')
-
 
 class DatabaseManager {
 
@@ -25,62 +28,19 @@ class DatabaseManager {
     }
 
     async findMovie(movieTitle: string): Promise<Optional<Movie[]>> {
-        if (movieTitle.length <= 3) { return undefined}
+        // if (movieTitle.length < 3) { return undefined }
 
-        const query = 'SELECT * FROM movies WHERE titel ILIKE $1'
-        const values = [`%${movieTitle}%`]
+        const query = 'WITH matches AS (SELECT *, similarity(titel, $1) AS similarity_score FROM movies)' +
+            'SELECT * FROM matches WHERE similarity_score > 0.22 ORDER BY similarity_score DESC'
+        const values = [movieTitle]
 
         try {
             const response = await this.pool.query(query, values)
-            return await this.handleFindMovieResponse(response, movieTitle)
-
+            return response.rows
         } catch (error) {
             console.error(error)
             return undefined
         }
-    }
-
-    private async handleFindMovieResponse(response: QueryResult, searchTerm: string): Promise<Movie[]> {
-        const movies: Optional<Movie[]> = response.rows
-
-        // TODO: if this movie finds a perfect match but just on then it continues to search for individual keywords,
-        //  this probably should not happen
-
-        if (movies.length >= 3) {
-            return movies
-        }
-
-        // if there are less then 3 matches we refine the search:
-        const newSearchTerms = searchTerm.split(' ').filter(term => term.length > 3)
-
-        // avoid infinite loop
-        if (newSearchTerms.length < 2) { return movies }
-
-        for (let term of newSearchTerms) {
-            const newMovies = await this.findMovie(term) ?? []
-            movies.push(...newMovies)
-        }
-
-        return this.prioritizeMovies(movies)
-    }
-
-    private prioritizeMovies(movies: Movie[]): Movie[] {
-        const movieMap = new Map<string, [Movie, number]>()
-
-        for (let movie of movies) {
-            const movieTuple = movieMap.get(movie.id!)
-            let movieCount: number = 0
-
-            if (movieTuple !== undefined) {
-                movieCount = movieTuple[1]
-            }
-
-            movieMap.set(movie.id!, [movie, movieCount + 1])
-        }
-
-        return Array.from(movieMap.entries())
-            .sort((first, second) => second[1][1] - first[1][1])
-            .map(entry => entry[1][0])
     }
 
     async findMovieByIndex(startIndex: number, endIndex: number): Promise<Movie[]> {
@@ -152,11 +112,23 @@ class DatabaseManager {
         }
     }
 
-    async deleteMovie(): Promise<Optional<any>> {
+    async deleteMovie(id: number): Promise<boolean> {
+        const query = 'DELETE from movies WHERE id = $1'
+        const values = [id]
 
+        try {
+            const response = await this.pool.query(query, values)
+            return response.rowCount == 1
+        } catch (error) {
+            console.error(error)
+            return false
+        }
     }
 
 }
 
-export const db: DatabaseManager = new DatabaseManager()
+export let db: DatabaseManager
 
+if (!building) {
+    db = new DatabaseManager()
+}

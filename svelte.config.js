@@ -6,8 +6,9 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter(),
+        csrf: { checkOrigin: false, }
 	}
-};
+}
 
 export default config;

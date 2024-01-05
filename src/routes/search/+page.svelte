@@ -4,7 +4,7 @@
 <input bind:value={query} on:input={handleSearchChange} class="search-input" placeholder="Filmtitel hier eingeben" type="text">
 
 {#each movies as movie}
-    <Movie movie={movie} highlightTitel="{query}" />
+    <MovieComponent movie={movie} highlightTitel="{query}" />
 {/each}
 
 {#if totalMatches > 100 }
@@ -16,14 +16,14 @@
 
 <script lang="ts">
 
-    import Movie from "../../components/MovieComponent.svelte";
+    import MovieComponent from "../../components/MovieComponent.svelte";
 
     let query = ''
     let movies: Movie[] = []
     let totalMatches = -1
 
     async function handleSearchChange(): Promise<void> {
-        if (query.length <= 3) {
+        if (query.length < 3) {
             movies = []
             totalMatches = -1
             return
