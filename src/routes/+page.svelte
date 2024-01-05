@@ -21,8 +21,6 @@
 <div class="newest-movies-wrapper">
     <p>Neuste Filme:</p>
 
-    {#each movies as movie}
-        <MovieComponent movie={movie} />
     {#each data.movies as movie}
         <MovieComponent movie={movie} />
     {/each}
