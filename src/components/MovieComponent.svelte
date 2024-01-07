@@ -15,10 +15,6 @@
         <button on:click|stopPropagation={deleteMovie} class="primary-button">Löschen</button>
     </dialog>
 
-    {#if showAcceptButton}
-        <button on:click={acceptMovie} class="accept-button">􀆅</button>
-    {/if}
-
     <div class="movie-wrapper"
          class:movie-wrapper-extended={movieIsExtended}
          class:movie-wrapper-with-button={showAcceptButton}
@@ -91,6 +87,10 @@
         {/if}
 
     </div>
+
+    {#if showAcceptButton}
+        <button on:click={acceptMovie} class="accept-button">􀆅</button>
+    {/if}
 
 </div>
 

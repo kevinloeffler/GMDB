@@ -5,7 +5,7 @@
 
     <MovieInput movie="{movie}" />
     <button on:click="{handleSubmit}" class="primary-button">Film speichern</button>
-    <Recommendation on:acceptMovieEvent={handleRecommendationEvent} title="{titleInput}" />
+    <Recommendation movie="{movie}" on:acceptMovieEvent={handleRecommendationEvent} />
 
 
 {:else if showForm === 1}
@@ -28,12 +28,10 @@
 
 
 <script lang="ts">
-    import TextInput from '../../components/TextInput.svelte'
     import Recommendation from "../../components/Recommendation.svelte";
     import MovieInput from '../../components/MovieInput.svelte'
 
     let showForm: -1 | 0 | 1 = 0
-    let titleInput: string = ''
 
     let movie: Movie = {
         titel: "",
@@ -42,10 +40,6 @@
         genre: undefined,
         actor: undefined,
         director: undefined,
-    }
-
-    function handleInputChangedEvent(event: any) {
-        titleInput = event.detail.value
     }
 
     function handleRecommendationEvent(event: any) {
@@ -92,16 +86,8 @@
         margin-bottom: 12px;
     }
 
-    #submit-button {
-        grid-column: 1 / 7;
-        grid-row: 4;
-    }
-
-    .new-movie-grid {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: repeat(4, 1fr);
-        grid-gap: 12px;
+    .primary-button {
+        width: 100%;
     }
 
     .status-msg {
@@ -123,42 +109,6 @@
     .status-msg-text {
         margin-top: 4px;
         margin-bottom: 20px;
-    }
-
-    /* Grid items */
-
-    .grid-item {
-        width: 100%;
-        height: 100%;
-    }
-
-    .new-movie-grid-title {
-        grid-column: 1 / 7;
-        grid-row: 1;
-    }
-    .new-movie-grid-year {
-        grid-column: 1 / 3;
-        grid-row: 2;
-    }
-
-    .new-movie-grid-country {
-        grid-column: 3 / 4;
-        grid-row: 2;
-    }
-
-    .new-movie-grid-genre {
-        grid-column: 4 / 7;
-        grid-row: 2;
-    }
-
-    .new-movie-grid-actor {
-        grid-column: 1 / 4;
-        grid-row: 3;
-    }
-
-    .new-movie-grid-director {
-        grid-column: 4 / 7;
-        grid-row: 3;
     }
 
 </style>
