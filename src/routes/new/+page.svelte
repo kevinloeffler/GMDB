@@ -3,38 +3,8 @@
 
 {#if showForm === 0}
 
-    <form on:submit|preventDefault={handleSubmit}>
-        <div class="new-movie-grid">
-
-            <div class="new-movie-grid-title grid-item">
-                <TextInput on:inputChangedEvent={handleInputChangedEvent} value="{movie.titel}" inputId="titel" inputLabel="Titel" isRequired="{true}" />
-            </div>
-
-            <div class="new-movie-grid-year grid-item">
-                <TextInput value="{movie.release_year}" inputId="release_year" inputLabel="Erscheinungsjahr" />
-            </div>
-
-            <div class="new-movie-grid-country grid-item">
-                <TextInput value="{movie.region}" inputId="region" inputLabel="Land" />
-            </div>
-
-            <div class="new-movie-grid-genre grid-item">
-                <TextInput value="{movie.genre}" inputId="genre" inputLabel="Genre" />
-            </div>
-
-            <div class="new-movie-grid-actor grid-item">
-                <TextInput value="{movie.actor}" inputId="actor" inputLabel="Schauspieler:in" />
-            </div>
-
-            <div class="new-movie-grid-director grid-item">
-                <TextInput value="{movie.director}" inputId="director" inputLabel="Regisseur:in" />
-            </div>
-
-            <button id="submit-button" type="submit" class="primary-button">Film Speichern</button>
-
-        </div>
-    </form>
-
+    <MovieInput movie="{movie}" />
+    <button on:click="{handleSubmit}" class="primary-button">Film speichern</button>
     <Recommendation on:acceptMovieEvent={handleRecommendationEvent} title="{titleInput}" />
 
 
@@ -60,6 +30,7 @@
 <script lang="ts">
     import TextInput from '../../components/TextInput.svelte'
     import Recommendation from "../../components/Recommendation.svelte";
+    import MovieInput from '../../components/MovieInput.svelte'
 
     let showForm: -1 | 0 | 1 = 0
     let titleInput: string = ''
@@ -81,18 +52,10 @@
         movie = event.detail.movie
     }
 
-    async function handleSubmit(form: any) : Promise<void> {
-        const formData = new FormData(form.target)
-
-        const data: any = {}
-        for (let field of formData) {
-            const [key, value] = field
-            data[key] = value
-        }
-
+    async function handleSubmit() : Promise<void> {
         const rawResponse = await fetch('/api/new-movie/', {
             method: 'POST',
-            body: JSON.stringify(data),
+            body: JSON.stringify(movie),
             headers: {
                 "Content-Type": "application/json",
             },

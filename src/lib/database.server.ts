@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import pkg from 'pg'
 const { Pool } = pkg
 import Papa from 'papaparse'
+import {error} from '@sveltejs/kit'
 
 dotenv.config()
 
@@ -109,6 +110,30 @@ class DatabaseManager {
         } catch (error) {
             console.error(error)
             return undefined
+        }
+    }
+
+    async updateMovie(newMovie: Movie): Promise<any> {
+        const query: string = `
+            UPDATE movies SET
+                titel = $2,
+                region = $3,
+                director = $4,
+                release_year = $5,
+                genre = $6,
+                actor = $7
+            WHERE id = $1;`
+
+        const values = [
+            parseInt(newMovie.id as string),
+            newMovie.titel, newMovie.region, newMovie.director, newMovie.release_year, newMovie.genre, newMovie.actor]
+
+        try {
+            const response = await this.pool.query(query, values)
+            return response.rowCount == 1
+        } catch (err) {
+            console.error(err)
+            return false
         }
     }
 

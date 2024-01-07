@@ -1,4 +1,23 @@
 <div class="movie">
+    <dialog bind:this={editDialog}>
+        <h2>Film bearbeiten</h2>
+        <MovieInput movie="{editedMovie}" />
+        {#if showEditErrorMsg}
+            <div class="edit-error-msg">{editErrorMsg}</div>
+        {/if}
+        <button on:click={() => editDialog.close()}>Abbrechen</button>
+        <button on:click={safeEditedMovie} class="primary-button">Speichern</button>
+    </dialog>
+
+    <dialog bind:this={deleteDialog}>
+        <h2>Film wirklich Löschen?</h2>
+        <button on:click={() => deleteDialog.close()}>Abbrechen</button>
+        <button on:click|stopPropagation={deleteMovie} class="primary-button">Löschen</button>
+    </dialog>
+
+    {#if showAcceptButton}
+        <button on:click={acceptMovie} class="accept-button">􀆅</button>
+    {/if}
 
     <div class="movie-wrapper"
          class:movie-wrapper-extended={movieIsExtended}
@@ -65,7 +84,7 @@
                 {#if !showAcceptButton}
                     <div class="edit-buttons-wrapper">
                         <button on:click|stopPropagation={editMovie}>Bearbeiten</button>
-                        <button on:click|stopPropagation={deleteMovie}>Löschen</button>
+                        <button on:click|stopPropagation={() => deleteDialog.showModal()}>Löschen</button>
                     </div>
                 {/if}
             </div>
@@ -73,25 +92,27 @@
 
     </div>
 
-    {#if showAcceptButton}
-        <button on:click={acceptMovie} class="accept-button">􀆅</button>
-    {/if}
-
 </div>
 
 
 
 <script lang="ts">
-
     import { slide } from "svelte/transition"
-    import {createEventDispatcher} from "svelte";
-    import {invalidateAll} from "$app/navigation";
+    import { createEventDispatcher } from "svelte";
+    import { invalidateAll } from "$app/navigation";
+    import MovieInput from './MovieInput.svelte'
 
     export let movie: Movie
     export let highlightTitel: Optional<string> = undefined
     export let showAcceptButton: boolean = false
 
     let movieIsExtended = false
+    let editedMovie: Movie = {...movie}
+    let editDialog: HTMLDialogElement
+    let showEditErrorMsg = false
+    let editErrorMsg = 'Es gab einen Fehler, die Änderungen wurden nicht gespeichert'
+
+    let deleteDialog: HTMLDialogElement
 
     let highlightedTitel: Optional<string> = undefined
 
@@ -118,8 +139,16 @@
     }
 
     function editMovie() {
-        // TODO: implement edit
-        console.log('edit movie')
+        editDialog.showModal()
+    }
+
+    async function safeEditedMovie() {
+        const response = await fetch(`/api/movies/${movie.id}`, {method: 'POST', body: JSON.stringify(editedMovie)})
+        if (response.status === 401) { window.location.href = '/login' }
+        const body = await response.json()
+        if (body.status !== true) { showEditErrorMsg = true }
+        editDialog.close()
+        await invalidateAll()
     }
 
     async function deleteMovie() {
@@ -129,6 +158,7 @@
             console.log('deleted')
             await invalidateAll()
         }
+        deleteDialog.close()
     }
 
     const dispatch = createEventDispatcher()
@@ -238,6 +268,35 @@
         transform: none;
         color: var(--background-color);
         background-color: var(--accent-color);
+    }
+
+    .edit-error-msg {
+        color: var(--accent-color);
+        font-weight: bold;
+        padding-bottom: 8px;
+    }
+
+    /* Dialog */
+
+    dialog {
+        max-inline-size: min(90vw, 900px);
+        box-sizing: border-box;
+        margin: auto;
+        padding: 40px;
+        position: fixed;
+        inset: 0;
+        border-radius: 4px;
+        border: solid 2px var(--secondary-color);
+    }
+
+    dialog::backdrop {
+        background-color: rgba(255, 255, 255, 0.75);
+        transition: backdrop-filter .5s ease;
+        -webkit-transition: backdrop-filter .5s ease;
+    }
+
+    dialog > h2 {
+        padding-bottom: 8px;
     }
 
     /* Movie Elements */
