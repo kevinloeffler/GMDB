@@ -13,5 +13,6 @@ export const POST: RequestHandler = (async ({params, request}) => {
 export const DELETE: RequestHandler = (async ({params}) => {
     const id = parseInt(params.id as string)
     const result = await db.deleteMovie(id)
+    const _ = await db.resetMovieIdCount()
     return json({'isDeleted': result})
 })

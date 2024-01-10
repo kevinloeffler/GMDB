@@ -150,6 +150,20 @@ class DatabaseManager {
         }
     }
 
+    async resetMovieIdCount(): Promise<boolean> {
+        const query =
+            `WITH find_max_id AS (SELECT max(id) as max_id FROM movies)
+            SELECT setval('movies_id_seq', max_id) FROM find_max_id`
+
+        try {
+            const response = await this.pool.query(query)
+            return response.rowCount == 1
+        } catch (err) {
+            console.error(err)
+            return false
+        }
+    }
+
 }
 
 export let db: DatabaseManager
