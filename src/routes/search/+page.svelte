@@ -1,7 +1,8 @@
 <a href="/" class="back-button">􀯶 Zurück</a>
 <h1>Film Suchen</h1>
 
-<input bind:value={query} on:input={handleSearchChange} class="search-input" placeholder="Filmtitel hier eingeben" type="text" autofocus>
+<input bind:value={query} on:input={handleSearchChange} class="search-input"
+       placeholder="Filmtitel hier eingeben" type="text" autocomplete="off" autofocus>
 
 {#each movies as movie (movie.id)}
     <MovieComponent movie={movie} highlightTitel="{query}" on:didChange={handleSearchChange}/>

@@ -1,5 +1,5 @@
 
-<form>
+<form autocomplete="off">
     <div class="new-movie-grid">
 
             <div class="input-wrapper">
