@@ -116,7 +116,7 @@
 
     let highlightedTitel: Optional<string> = undefined
 
-    $: if (highlightTitel !== undefined) {
+    $: if (highlightTitel !== undefined && movie) {
         highlightedTitel = highlight(highlightTitel)
     }
 

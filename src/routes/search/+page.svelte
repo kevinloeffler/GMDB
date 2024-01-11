@@ -3,7 +3,7 @@
 
 <input bind:value={query} on:input={handleSearchChange} class="search-input" placeholder="Filmtitel hier eingeben" type="text">
 
-{#each movies as movie}
+{#each movies as movie (movie.id)}
     <MovieComponent movie={movie} highlightTitel="{query}" />
 {/each}
 
@@ -29,9 +29,7 @@
             return
         }
 
-        const rawResponse = await fetch('/api/find-movie?' + new URLSearchParams({
-            query: query,
-        }))
+        const rawResponse = await fetch('/api/find-movie?' + new URLSearchParams({ query: query }))
 
         const response = await rawResponse.json()
         movies = response.movies
