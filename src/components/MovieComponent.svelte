@@ -302,7 +302,7 @@
     /* Movie Elements */
 
     .title {
-        width: calc(44% - 66px);
+        width: calc(50% - 66px);
         font-weight: 500;
     }
 
@@ -315,11 +315,11 @@
     }
 
     .genre {
-        width: 12%
+        width: 10%
     }
 
     .actor {
-        width: 14%;
+        width: 10%;
     }
 
     .director {
