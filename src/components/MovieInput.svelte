@@ -6,7 +6,7 @@
             </div>
 
         <div class="new-movie-grid-title grid-item input-wrapper">
-            <input id="titel" bind:value={movie.titel} class="input" type="text" name="titel" placeholder=" " required />
+            <input id="titel" bind:value={movie.titel} class="input" type="text" name="titel" placeholder=" " required autofocus />
             <label for="titel" class="label">Titel</label>
         </div>
 
