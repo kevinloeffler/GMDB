@@ -148,7 +148,7 @@
         const body = await response.json()
         if (body.status !== true) { showEditErrorMsg = true }
         editDialog.close()
-        await invalidateAll()
+        dispatch('didChange')
     }
 
     async function deleteMovie() {

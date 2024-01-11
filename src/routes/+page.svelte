@@ -21,7 +21,7 @@
 <div class="newest-movies-wrapper">
     <p>Neuste Filme:</p>
     {#each data.movies as movie (movie.id)}
-        <MovieComponent movie={movie} />
+        <MovieComponent movie={movie} on:didChange={invalidateAll} />
     {/each}
 </div>
 
@@ -30,6 +30,7 @@
 
     import MovieComponent from "../components/MovieComponent.svelte";
     import type { PageData } from './$types'
+    import {invalidateAll} from '$app/navigation'
 
     export let data: PageData;
 

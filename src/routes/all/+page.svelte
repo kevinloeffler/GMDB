@@ -7,7 +7,7 @@
 
 
 {#each movies as movie (movie.id)}
-    <MovieComponent movie={movie} />
+    <MovieComponent movie={movie} on:didChange={() => {window.location.href = '/all'}} />
 {/each}
 
 <svelte:document on:scroll={handleScroll} />

@@ -4,7 +4,7 @@
 <input bind:value={query} on:input={handleSearchChange} class="search-input" placeholder="Filmtitel hier eingeben" type="text" autofocus>
 
 {#each movies as movie (movie.id)}
-    <MovieComponent movie={movie} highlightTitel="{query}" />
+    <MovieComponent movie={movie} highlightTitel="{query}" on:didChange={handleSearchChange}/>
 {/each}
 
 {#if totalMatches > 100 }
