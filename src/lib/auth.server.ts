@@ -5,7 +5,7 @@ export function login(password: string): string | false {
     if (password !== PASSWORD ) {
         return false
     }
-    return jwt.sign({loggedIn: true}, PASSWORD, { expiresIn: `${60 * 60 * 1000}`})
+    return jwt.sign({loggedIn: true}, PASSWORD, { expiresIn: `${5 * 60 * 60 * 1000}`})
 }
 
 export function validateJWT(token: string): boolean {
