@@ -20,13 +20,9 @@
 
 <div class="newest-movies-wrapper">
     <p>Neuste Filme:</p>
-
-    {#each data.movies as movie}
+    {#each data.movies as movie (movie.id)}
         <MovieComponent movie={movie} />
     {/each}
-
-    <!--TODO: Loading animation-->
-
 </div>
 
 
