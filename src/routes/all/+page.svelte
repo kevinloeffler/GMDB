@@ -34,8 +34,16 @@
     }
 
     async function loadMovies() {
-        const endIndex = numberOfMovies - currentlyDisplayedMovies
-        const startIndex = endIndex - 50
+        let endIndex: number
+        let startIndex: number
+        if (currentlyDisplayedMovies === 0) {
+            // handle first fetch to db: the id of the latest movie might be bigger than numberOfMovies.
+            endIndex = 9_999_999
+            startIndex = numberOfMovies - 50
+        } else {
+            endIndex = numberOfMovies - currentlyDisplayedMovies
+            startIndex = endIndex - 50
+        }
         return (await fetchMovies(startIndex, endIndex)).reverse()
     }
 
