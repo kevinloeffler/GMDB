@@ -13,6 +13,7 @@
             <p class="menu-title">Menu</p>
             <p><span class="menu-icon">􀋴</span> Total Filme: {numberOfMovies}</p>
             <button on:click={downloadBackup} role="menuitem"><span class="menu-icon">􀌕</span> Backup herunterladen</button>
+            <button on:click={downloadExcel} role="menuitem"><span class="menu-icon">􀏣</span> Excel herunterladen</button>
         </div>
 
         <a href="https://www.themoviedb.org" target="_blank" class="menu-footer">
@@ -37,6 +38,10 @@
 
     async function downloadBackup() {
         window.location.href = '/api/download'
+    }
+
+    async function downloadExcel() {
+        window.location.href = '/api/download/excel'
     }
 
     async function toggleMenu() {
@@ -157,12 +162,11 @@
     .menu-icon {
         display: inline-block;
         min-width: 36px;
+        margin: 8px 0;
     }
 
     button {
         padding: 0;
-        margin: 12px 0;
-
         font-weight: 500;
         font-size: var(--body-type-size);
         text-align: left;

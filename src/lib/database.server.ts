@@ -57,6 +57,18 @@ class DatabaseManager {
         }
     }
 
+    async getAllMovies(): Promise<Optional<Movie[]>> {
+        const query = 'SELECT * FROM movies;'
+
+        try {
+            const response = await this.pool.query(query)
+            return response.rows
+        } catch (err) {
+            console.error(err)
+            return undefined
+        }
+    }
+
     async getNewestMovies(): Promise<Optional<Movie[]>> {
         const query = 'SELECT * FROM movies ORDER BY id DESC LIMIT 8;'
 
