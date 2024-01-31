@@ -6,7 +6,7 @@ export const GET: RequestHandler = (async ({request}) => {
     const csvFile = await db.createCSV()
 
     const date = new Date()
-    const filename = `Backup Filme ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    const filename = `Backup Filme ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}.csv`
 
     return new Response(csvFile, {
         headers: {
