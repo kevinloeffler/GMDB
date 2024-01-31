@@ -1,5 +1,15 @@
 <a href="/" class="back-button">􀯶 Zurück</a>
-<h1>Film Suchen</h1>
+
+<div class="title-wrapper">
+    <h1>Film Suchen</h1>
+
+    <div>
+        <input id="titel-mode-selector" class="mode-selector" name="mode" type="radio" value="titel" bind:group={mode}>
+        <label for="titel-mode-selector" class="mode-selector-label">Titel</label>
+        <input id="id-mode-selector" class="mode-selector" name="mode" type="radio" value="id" bind:group={mode}>
+        <label for="id-mode-selector" class="mode-selector-label">Nummer</label>
+    </div>
+</div>
 
 <input bind:value={query} on:input={handleSearchChange} class="search-input"
        placeholder="Filmtitel hier eingeben" type="text" autocomplete="off" autofocus>
@@ -23,14 +33,25 @@
     let movies: Movie[] = []
     let totalMatches = -1
 
+    let mode = 'titel'
+    $: mode, handleSearchChange()
+
     async function handleSearchChange(): Promise<void> {
-        if (query.length < 3) {
+        // guard for titel input
+        if (mode === 'titel' && query.length < 3) {
             movies = []
             totalMatches = -1
             return
         }
 
-        const rawResponse = await fetch('/api/find-movie?' + new URLSearchParams({ query: query }))
+        // guard for id input
+        if (mode === 'id' && query.length < 1) {
+            movies = []
+            totalMatches = -1
+            return
+        }
+
+        const rawResponse = await fetch('/api/find-movie?' + new URLSearchParams({ query: query, mode: mode }))
 
         const response = await rawResponse.json()
         movies = response.movies
@@ -63,6 +84,29 @@
         font-weight: 500;
         text-align: center;
         padding-top: 4px;
+    }
+
+    .title-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .mode-selector {
+        display: none;
+    }
+
+    .mode-selector-label {
+        color: black;
+        padding: 4px 8px;
+        border: 2px solid black;
+        border-radius: 4px;
+    }
+
+    .mode-selector:checked + .mode-selector-label {
+        color: white;
+        background-color: black;
+
     }
 
 </style>
