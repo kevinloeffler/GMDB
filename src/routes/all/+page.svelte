@@ -22,8 +22,11 @@
     let numberOfMovies: number
     $: currentlyDisplayedMovies = movies.length
 
-    onMount( async () => { numberOfMovies = await fetchNumberOfMovies() } )
-    onMount( async () => { movies = await loadMovies() })
+    onMount( async () => {
+        numberOfMovies = await fetchNumberOfMovies()
+        movies = await loadMovies()
+    })
+    // onMount( async () => { movies = await loadMovies() })
 
     async function fetchNumberOfMovies(): Promise<number> {
         const rawResponse = await fetch('/api/stats')
@@ -32,12 +35,17 @@
     }
 
     async function loadMovies() {
+        const endIndex = numberOfMovies - currentlyDisplayedMovies
+        const startIndex = endIndex - 50
+        return (await fetchMovies(startIndex, endIndex)).reverse()
+        /*
         const startIndex = movies.length + 1
         const endIndex = startIndex + 50
         return fetchMovies(startIndex, endIndex)
+        */
     }
 
-    async function fetchMovies(startIndex: number, endIndex: number) {
+    async function fetchMovies(startIndex: number, endIndex: number): Promise<Movie[]> {
         const rawResponse = await fetch(`/api/movies?startIndex=${startIndex}&endIndex=${endIndex}`)
         const response = await rawResponse.json()
         return response.movies
