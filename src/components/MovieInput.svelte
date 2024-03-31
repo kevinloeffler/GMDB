@@ -22,7 +22,7 @@
 
         <div class="new-movie-grid-year grid-item input-wrapper">
             <input id="release_year" bind:value={movie.release_year} class="input" type="text" name="release_year" placeholder=" " required />
-            <label for="release_year" class="label">Erscheinungsjahr</label>
+            <label for="release_year" class="label">Jahr</label>
         </div>
 
         <div class="new-movie-grid-country grid-item input-wrapper">
