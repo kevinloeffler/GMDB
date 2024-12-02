@@ -21,7 +21,7 @@
     onMount(() => {
         interval = setInterval(() => {
             updateProgressBar()
-        }, 500)
+        }, 700)
     })
 
     onDestroy(() => {

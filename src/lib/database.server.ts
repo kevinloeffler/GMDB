@@ -58,7 +58,7 @@ class DatabaseManager {
     }
 
     async getAllMovies(): Promise<Optional<Movie[]>> {
-        const query = 'SELECT * FROM movies;'
+        const query = 'SELECT * FROM movies ORDER BY id'
 
         try {
             const response = await this.pool.query(query)
@@ -102,7 +102,7 @@ class DatabaseManager {
     }
 
     async createCSV() {
-        const query = 'SELECT * FROM movies ORDER BY id ASC'
+        const query = 'SELECT * FROM movies ORDER BY id'
 
         try {
             const response = await this.pool.query(query)
