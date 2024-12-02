@@ -12,8 +12,22 @@
         <div>
             <p class="menu-title">Menu</p>
             <p><span class="menu-icon">􀋴</span> Total Filme: {numberOfMovies}</p>
-            <button on:click={downloadBackup} role="menuitem"><span class="menu-icon">􀌕</span> Backup herunterladen</button>
-            <button on:click={downloadExcel} role="menuitem"><span class="menu-icon">􀏣</span> Excel herunterladen</button>
+            <button on:click={downloadBackup} role="menuitem"><span class="menu-icon">􀌕</span>
+                {#if isDownloadingBackup}
+                    Backup wird heruntergeladen...
+                    <MenuLoadingBar />
+                {:else}
+                    Backup herunterladen
+                {/if}
+            </button>
+            <button on:click={downloadExcel} role="menuitem"><span class="menu-icon">􀏣</span>
+                {#if isDownloadingExcel}
+                    Excel wird heruntergeladen...
+                    <MenuLoadingBar />
+                {:else}
+                    Excel herunterladen
+                {/if}
+            </button>
         </div>
 
         <a href="https://www.themoviedb.org" target="_blank" class="menu-footer">
@@ -33,18 +47,55 @@
 
 <script lang="ts">
 
+    import MenuLoadingBar from './MenuLoadingBar.svelte'
+
     let showMenu = false
     let numberOfMovies: number
 
+    let isDownloadingExcel = false
+    let isDownloadingBackup = false
+
+    async function downloadFile(apiUrl: string, filename: string): Promise<void> {
+        try {
+            const response = await fetch(apiUrl)
+            if (!response.ok) {
+                console.error('Download failed')
+                return
+            }
+
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+
+            link.download = filename
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+            window.URL.revokeObjectURL(url)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     async function downloadBackup() {
-        window.location.href = '/api/download'
+        isDownloadingBackup = true
+        const date = new Date()
+        const filename = `Filme ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}.csv`
+        await downloadFile('/api/download', filename)
+        isDownloadingBackup = false
     }
 
     async function downloadExcel() {
-        window.location.href = '/api/download/excel'
+        isDownloadingExcel = true
+        const date = new Date()
+        const filename = `Filme als Excel ${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}.xlsx`
+        await downloadFile('/api/download/excel', filename)
+        isDownloadingExcel = false
+        // window.location.href = '/api/download/excel'
     }
 
-    async function toggleMenu() {
+    async function toggleMenu(): Promise<void> {
         if (!showMenu) {
             numberOfMovies = await fetchNumberOfMovies()
         }
