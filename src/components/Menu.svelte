@@ -3,8 +3,10 @@
     <div id="menu-button" tabindex="0" on:click={toggleMenu} on:keypress={() => {showMenu = !showMenu}}>
         {#if showMenu}
             <p>􀯻</p>
+            <p>Menu Schliessen</p>
         {:else}
             <p>􀯶</p>
+            <p>Menu Öffnen</p>
         {/if}
     </div>
 
@@ -128,6 +130,8 @@
         z-index: 999;
 
         transition: margin-right 300ms cubic-bezier(.3,0,.3,1);
+
+        pointer-events: none;
     }
 
     .menu-wrapper-shown {
@@ -139,8 +143,8 @@
         align-items: center;
         justify-content: center;
 
-        width: 44px;
-        height: 44px;
+        width: 240px;
+        height: 60px;
         margin-right: 12px;
 
         border: solid 2px var(--secondary-color);
@@ -151,6 +155,12 @@
 
         background-color: var(--background-color);
         z-index: 91;
+
+        pointer-events: auto;
+    }
+
+    #menu-button > p {
+        margin: 0 8px;
     }
 
     .menu {
@@ -172,6 +182,7 @@
         z-index: 90;
 
         font-weight: 500;
+        pointer-events: auto;
     }
 
     .menu-background {
