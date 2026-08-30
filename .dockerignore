@@ -2,7 +2,5 @@ node_modules
 .svelte-kit
 build
 .git
-.env
-.env.*
 Dockerfile
 .dockerignore
